@@ -1,0 +1,525 @@
+#
+# Copyright 2014 The Android Open-Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+$(call inherit-product, device/huawei/hi6250/device.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+# Sample: This is where we'd set a backup provider if we had one
+# $(call inherit-product, device/sample/products/backup_overlay.mk)
+
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1080
+DEVICE_PACKAGE_OVERLAYS := device/huawei/hi6250/overlay
+Device_Root := device/huawei/hi6250
+#RIL
+PRODUCT_PROPERTY_OVERRIDES += \
+audioril.lib=libhuawei-audio-ril.so \
+ro.telephony.ril_class=HuaweiRIL 
+
+PRODUCT_COPY_FILES += \
+vendor/global/apns-conf.xml:system/etc/apns-conf.xml
+#Audio Config
+PRODUCT_COPY_FILES += \
+device/huawei/hi6250/audio/audio_effects.conf:system/etc/audio_effects.conf \
+device/huawei/hi6250/audio/audio_policy.conf:system/etc/audio_policy.conf \
+
+
+#Bluetooth
+PRODUCT_COPY_FILES += \
+device/huawei/hi6250/bluetooth/auto_pair_devlist.conf:system/etc/bluetooth/auto_pair_devlist.conf \
+device/huawei/hi6250/bluetooth/bt_did.conf:system/etc/bluetooth/bt_did.conf \
+device/huawei/hi6250/bluetooth/bt_stack.conf:system/etc/bluetooth/bt_stack.conf
+
+
+#Media patches
+PRODUCT_COPY_FILES += \
+device/huawei/hi6250/media/media_profiles.xml:system/etc/media_profiles.xml \
+device/huawei/hi6250/media/media_codecs.xml:system/etc/media_codecs.xml \
+device/huawei/hi6250/media/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
+
+PRODUCT_PACKAGES += \
+audio.primary.default \
+audio_policy.stub \
+audio.a2dp.default \
+audio.usb.default \
+audio.r_submix.default \
+libaudioutils \
+libtinyalsa \
+tinyplay \
+tinycap \
+tinymix \
+tinypcminfo \
+sound_trigger.primary.hi6250 \
+libion.huawei \
+libwpa_client \
+wpa_supplicant \
+wpa_supplicant-conf \
+libnfc-nci \
+libnfc_nci_jni \
+Nfc \
+Tag \
+com.android.nfc_extras \
+
+#SeLinux
+BOARD_SEPOLICY_DIRS += \
+	device/huawei/hi6250/selinux
+
+BOARD_SEPOLICY_UNION += \
+	file_contexts \
+	installd.te
+#etc perms (coming soon)
+
+
+
+# Copying some libs in order to get it working
+PRODUCT_COPY_FILES += \
+		       vendor/bin/atcmdserver:system/bin/atcmdserver \
+		       vendor/isp.bin:system/isp.bin \
+		       vendor/phone.prop:system/phone.prop \
+		       vendor/lib/libsrsprocessing.so:system/lib/libsrsprocessing.so \
+		       vendor/lib64/libcameraservice.so:system/lib64/libcameraservice.so \
+		       vendor/lib/drm/libdrmhwomavoneplugin.so:system/lib/drm/libdrmhwomavoneplugin.so\
+		       vendor/vendor/lib/drm/libdrmwvmplugin.so:system/vendor/lib/drm/libdrmwvmplugin.so.so\
+		       vendor/bin/glgps:system/bin/glgps\
+		       vendor/bin/gpsdaemon:system/bin/gpsdaemon\
+		       vendor/bin/gpslogd:system/bin/gpslogd\
+		       vendor/bin/hwnff:system/bin/hwnff\
+		       vendor/bin/hwnffserver:system/bin/hwnffserver\
+		       vendor/bin/hwpged:system/bin/hwpged\
+		       vendor/bin/mac_addr_normalization:system/bin/mac_addr_normalization\
+		       vendor/bin/rild:system/bin/rild\
+		       vendor/mali/64bit/libGLES_mali.so:system/lib64/egl/libGLES_mali.so\
+		       vendor/mali/32bit/libGLES_mali.so:system/lib/egl/libGLES_mali.so\
+		       vendor/lib64/hw/audio.a2dp.default.so:system/lib64/hw/audio.a2dp.default.so\
+		       vendor/lib/hw/audio.a2dp.default.so:system/lib/hw/audio.a2dp.default.so\
+		       vendor/lib64/hw/audio.primary.default.so:system/lib64/hw/audio.primary.default.so\
+		       vendor/lib/hw/audio.primary.hi6250.so:system/lib/hw/audio.primary.hi6250.so \
+		       vendor/lib64/hw/audio.primary.hi6250.so:system/lib64/hw/audio.primary.hi6250.so \
+		       vendor/lib/hw/audio.primary.default.so:system/lib/hw/audio.primary.default.so\
+		       vendor/lib64/hw/audio.r_submix.default.so:system/lib64/hw/audio.r_submix.default.so\
+		       vendor/lib/hw/audio.r_submix.default.so:system/lib/hw/audio.r_submix.default.so\
+		       vendor/lib/hw/bluetooth.default.so:system/lib/hw/bluetooth.default.so \
+		       vendor/lib64/hw/camera.hi6250.so:system/lib64/hw/camera.hi6250.so\
+		       vendor/lib/hw/camera.hi6250.so:system/lib/hw/camera.hi6250.so\
+		       vendor/lib64/hw/keystore.hi6250.so:system/lib64/hw/keystore.hi6250.so\
+		       vendor/lib/hw/keystore.hi6250.so:system/lib/hw/keystore.hi6250.so\
+		       vendor/lib64/hw/gps.hi6250.so:system/lib64/hw/gps.hi6250.so\
+		       vendor/lib64/hw/gps.hi110x.default.so:system/lib64/hw/gps.hi110x.default.so\
+		       vendor/lib/hw/gps.hi110x.default.so:system/lib/hw/gps.hi110x.default.so\
+		       vendor/lib64/hw/lights.default.so:system/lib64/hw/lights.default.so\
+		       vendor/lib/hw/lights.default.so:system/lib/hw/lights.default.so\
+		       vendor/lib64/hw/nfc_nci.pn54x.default.so:system/lib64/hw/nfc_nci.pn54x.default.so\
+		       vendor/lib64/hw/power.default.so:system/lib64/hw/power.default.so\
+		       vendor/lib/hw/power.default.so:system/lib/hw/power.default.so\
+		       vendor/lib64/hw/gralloc.hi6250.so:system/lib64/hw/gralloc.hi6250.so\
+		       vendor/lib/hw/gralloc.hi6250.so:system/lib/hw/gralloc.hi6250.so\
+		       vendor/lib/hw/hwcomposer.default.so:system/lib/hw/hwcomposer.default.so\
+		       vendor/lib64/hw/hwcomposer.default.so:system/lib64/hw/hwcomposer.default.so\
+		       vendor/lib64/hw/hwcomposer.hi6250.so:system/lib64/hw/hwcomposer.hi6250.so\
+		       vendor/lib/hw/hwcomposer.hi6250.so:system/lib/hw/hwcomposer.hi6250.so\
+                       vendor/lib64/hw/memtrack.hi6250.so:system/lib64/hw/memtrack.hi6250.so\
+                       vendor/lib/hw/memtrack.hi6250.so:system/lib/hw/memtrack.hi6250.so\
+                       vendor/lib64/libhardware.so:system/lib64/libhardware.so\
+                       vendor/lib/libhardware.so:system/lib/libhardware.so\
+                       vendor/lib64/libui.so:system/lib64/libui.so\
+                       vendor/lib/libui.so:system/lib/libui.so\
+                       vendor/lib/libgui.so:system/lib/libgui.so\
+                       vendor/lib64/libhwaps.so:system/lib64/libhwaps.so\
+			vendor/lib/libhwaps.so:system/lib/libhwaps.so\
+                       vendor/lib/libion.so:system/lib/libion.so\
+                       vendor/lib64/libion.so:system/lib64/libion.so\
+                      vendor/lib64/libhardware_legacy.so:system/lib64/libhardware_legacy.so\
+			vendor/lib/libhardware_legacy.so:system/lib/libhardware_legacy.so\
+			vendor/lib64/libbalong-ril.so:system/lib64/libbalong-ril.so\
+		        vendor/lib64/libril.so:system/lib64/libril.so\
+		        vendor/lib/libril.so:system/lib/libril.so\
+			vendor/lib64/libbalong-ril-1.so:system/lib64/libbalong-ril-1.so\
+			vendor/lib64/libbalong_audio_ril.so:system/lib64/libbalong_audio_ril.so\
+			vendor/lib/libbalong_audio_ril.so:system/lib/libbalong_audio_ril.so\
+			vendor/lib64/libcamera_client.so:system/lib64/libcamera_client.so\
+			vendor/lib/libcamera_client.so:system/lib/libcamera_client.so\
+			vendor/lib/libcamera_core.so:system/lib/libcamera_core.so\
+			vendor/lib64/libservices.huawei.so:system/lib64/libservices.huawei.so\
+			vendor/lib/libservices.huawei.so:system/lib/libservices.huawei.so\
+			vendor/lib64/libteec.so:system/lib64/libteec.so\
+			vendor/lib64/libbt_factory_test.so:system/lib64/libbt_factory_test.so\
+			vendor/lib64/libbt_factory_test_hi110x.so:system/lib64/libbt_factory_test_hi110x.so\
+			vendor/lib64/libconn_factory_test.so:system/lib64/libconn_factory_test.so\
+			vendor/lib64/libfm_hal.so:system/lib64/libfm_hal.so\
+			vendor/lib64/libfm_interface.so:system/lib64/libfm_interface.so\
+			vendor/lib64/libfm_jni.so:system/lib64/libfm_jni.so\
+			vendor/lib64/libfm_volume.so:system/lib64/libfm_volume.so\
+			vendor/lib64/libgps_factory_test.so:system/lib64/libgps_factory_test.so\
+			vendor/lib64/libgps_factory_test_hi110x.so:system/lib64/libgps_factory_test_hi110x.so\
+			vendor/lib64/libhardware_legacy_bcm.so:system/lib64/libhardware_legacy_bcm.so\
+			vendor/lib64/libhardware_legacy_hisi.so:system/lib64/libhardware_legacy_hisi.so\
+			vendor/lib64/libhuawei_mmi_test.so:system/lib64/libhuawei_mmi_test.so\
+			vendor/lib64/lib_k3_ffmpeg.so:system/lib64/lib_k3_ffmpeg.so\
+			vendor/lib64/lib_k3_omx_avc.so:system/lib64/lib_k3_omx_avc.so\
+			vendor/lib64/lib_k3_omx_avcenc.so:system/lib64/lib_k3_omx_avcenc.so\
+			vendor/lib64/lib_k3_omxcore.so:system/lib64/lib_k3_omxcore.so\
+			vendor/lib64/lib_k3_omx_mpeg2.so:system/lib64/lib_k3_omx_mpeg2.so\
+			vendor/lib64/lib_k3_omx_mpeg4.so:system/lib64/lib_k3_omx_mpeg4.so\
+			vendor/lib64/lib_k3_omx_rv.so:system/lib64/lib_k3_omx_rv.so\
+			vendor/lib64/lib_k3_omx_vc1.so:system/lib64/lib_k3_omx_vc1.so\
+			vendor/lib64/lib_k3_omx_vp8.so:system/lib64/lib_k3_omx_vp8.so\
+			vendor/lib64/libmedia_jni.huawei.so:system/lib64/libmedia_jni.huawei.so\
+			vendor/lib64/libmtp.huawei.so:system/lib64/libmtp.huawei.so\
+			vendor/lib64/libnfc-nci.so:system/lib64/libnfc-nci.so\
+			vendor/lib64/libnfc_nci_jni.so:system/lib64/libnfc_nci_jni.so\
+			vendor/lib64/libnfc_ndef.so:system/lib64/libnfc_ndef.so\
+			vendor/lib64/libOpenMAXAL.so:system/lib64/libOpenMAXAL.so\
+			vendor/lib64/libOpenSLES.so:system/lib64/libOpenSLES.so\
+			vendor/lib64/libwifi_factory_test.so:system/lib64/libwifi_factory_test.so\
+			vendor/lib64/libwifi_factory_test_hi110x.so:system/lib64/libwifi_factory_test_hi110x.so\
+			vendor/lib64/libwpa_client.so:system/lib64/libwpa_client.so\
+			vendor/lib64/libwpa_client_hisi.so:system/lib64/libwpa_client_hisi.so\
+			vendor/lib/libteec.so:system/lib/libteec.so\
+			vendor/lib/libaudioflinger.huawei.so:system/lib/libaudioflinger.huawei.so\
+			vendor/lib/libhuaweiaudioalgoservice.so:system/lib/libhuaweiaudioalgoservice.so\
+			vendor/lib/libhuaweiprocessing.so:system/lib/libhuaweiprocessing.so\
+			vendor/lib/libjpu.so:system/lib/libjpu.so\
+			vendor/lib64/libjpu.so:system/lib64/libjpu.so\
+			vendor/vendor/firmware/4343A0_001.001.034.0056.0193_ORC.hcd:system/vendor/firmware/4343A0_001.001.034.0056.0193_ORC.hcd\
+			vendor/vendor/firmware/BCM4334B0_002.001.013.1554.1613_RC.hcd:system/vendor/firmware/BCM4334B0_002.001.013.1554.1613_RC.hcd\
+			vendor/vendor/firmware/fw_bcm4343s_apsta_hw.bin:system/vendor/firmware/fw_bcm4343s_apsta_hw.bin\
+			vendor/vendor/firmware/fw_bcm4343s_hw.bin:system/vendor/firmware/fw_bcm4343s_hw.bin\
+			vendor/vendor/firmware/fw_bcm4343s_p2p_hw.bin:system/vendor/firmware/fw_bcm4343s_p2p_hw.bin\
+			vendor/vendor/firmware/fw_bcm4343s_test_hw_apsta.bin:system/vendor/firmware/fw_bcm4343s_test_hw_apsta.bin\
+			vendor/vendor/firmware/GNSS.bin:system/vendor/firmware/GNSS.bin\
+			vendor/vendor/firmware/libpn547_fw.so:system/vendor/firmware/libpn547_fw.so\
+			vendor/vendor/firmware/nvram4343s_hw.txt:system/vendor/firmware/nvram4343s_hw.txt\
+			vendor/vendor/firmware/nvram_CHERRY_PLUS_TL00.txt:system/vendor/firmware/nvram_CHERRY_PLUS_TL00.txt\
+			vendor/vendor/firmware/nvram_CHERRY_PLUS_TL20M.txt:system/vendor/firmware/nvram_CHERRY_PLUS_TL20M.txt\
+			vendor/vendor/firmware/nvram_CHERRY_PLUS_UL00.txt:system/vendor/firmware/nvram_CHERRY_PLUS_UL00.txt\
+			vendor/vendor/firmware/sdio_cfg:system/vendor/firmware/sdio_cfg\
+			vendor/vendor/firmware/SDIO_CMP.bin:system/vendor/firmware/SDIO_CMP.bin\
+			vendor/vendor/firmware/SDIO_COD.bin:system/vendor/firmware/SDIO_COD.bin\
+			vendor/vendor/firmware/SDIO_RW.bin:system/vendor/firmware/SDIO_RW.bin\
+			vendor/vendor/firmware/SDIO_RW_ALICE_TL00_FEM.bin:system/vendor/firmware/SDIO_RW_ALICE_TL00_FEM.bin\
+			vendor/vendor/firmware/SDIO_RW_ALICE_TL02_FEM.bin:system/vendor/firmware/SDIO_RW_ALICE_TL02_FEM.bin\
+			vendor/vendor/lib/libbt-vendor-hi110x.so:system/vendor/lib/libbt-vendor-hi110x.so\
+			vendor/vendor/lib/libwvdrm_L3.so:system/vendor/lib/libwvdrm_L3.so\
+			vendor/vendor/lib/libWVStreamControlAPI_L3.so:system/vendor/lib/libWVStreamControlAPI_L3.so\
+			vendor/vendor/lib64/libbt-vendor-hi110x.so:system/vendor/lib64/libbt-vendor-hi110x.so\
+			vendor/vendor/framework/com.huawei.audioalgo.jar:system/vendor/framework/com.huawei.audioalgo.jar\
+			vendor/vendor/media/LMspeed_508.emd:system/vendor/media/LMspeed_508.emd\
+			vendor/vendor/media/PFFprec_600.emd:system/vendor/media/PFFprec_600.emd
+
+
+
+
+
+                     
+## Setting up ramdisk
+
+PRODUCT_COPY_FILES += $(call add-to-product-copy-files-if-exists,\
+			$(LOCAL_PATH)/ramdisk/fstab.hi6250:root/fstab.hi6250 \
+			$(LOCAL_PATH)/ramdisk/fstab.zram256m:root/fstab.zram256m \
+			$(LOCAL_PATH)/ramdisk/fstab.zram512m:root/fstab.zram512m \
+			$(LOCAL_PATH)/ramdisk/init.hi6250.rc:root/init.hi6250.rc \
+			$(LOCAL_PATH)/ramdisk/ueventd.hi6250.rc:root/ueventd.hi6250.rc \
+			$(LOCAL_PATH)/ramdisk/init:root/init\
+			$(LOCAL_PATH)/ramdisk/init.4871.rc:root/init.4871.rc\
+			$(LOCAL_PATH)/ramdisk/init.6193.rc:root/init.6193.rc\
+			$(LOCAL_PATH)/ramdisk/init.51312.rc:root/init.51312.rc\
+			$(LOCAL_PATH)/ramdisk/init.audio.rc:root/init.audio.rc\
+			$(LOCAL_PATH)/ramdisk/init.balong_modem.rc:root/init.balong_modem.rc\
+			$(LOCAL_PATH)/ramdisk/init.chip.usb.rc:root/init.chip.usb.rc\
+			$(LOCAL_PATH)/ramdisk/init.connectivity.bcm43xx.rc:root/init.connectivity.bcm43xx.rc\
+			$(LOCAL_PATH)/ramdisk/init.connectivity.bcm43455.rc:root/init.connectivity.bcm43455.rc\
+			$(LOCAL_PATH)/ramdisk/init.connectivity.gps.rc:root/init.connectivity.gps.rc\
+			$(LOCAL_PATH)/ramdisk/init.connectivity.hisi.rc:root/init.connectivity.hisi.rc\
+			$(LOCAL_PATH)/ramdisk/init.connectivity.rc:root/init.connectivity.rc\
+			$(LOCAL_PATH)/ramdisk/init.device.rc:root/init.device.rc\
+			$(LOCAL_PATH)/ramdisk/init.environ.rc:root/init.environ.rc\
+			$(LOCAL_PATH)/ramdisk/init.extmodem.rc:root/init.extmodem.rc\
+			$(LOCAL_PATH)/ramdisk/init.hi6250.rc:root/init.hi6250.rc\
+			$(LOCAL_PATH)/ramdisk/init.hisi.rc:root/init.hisi.rc\
+			$(LOCAL_PATH)/ramdisk/init.manufacture.rc:root/init.manufacture.rc\
+			$(LOCAL_PATH)/ramdisk/init.performance.rc:root/init.performance.rc\
+			$(LOCAL_PATH)/ramdisk/init.platform.rc:root/init.platform.rc\
+			$(LOCAL_PATH)/ramdisk/init.post-fs-data.rc:root/init.post-fs-data.rc\
+			$(LOCAL_PATH)/ramdisk/init.protocol.rc:root/init.protocol.rc\
+			$(LOCAL_PATH)/ramdisk/init.rc:root/init.rc\
+			$(LOCAL_PATH)/ramdisk/init.recovery.balong_modem.rc:root/init.recovery.balong_modem.rc\
+			$(LOCAL_PATH)/ramdisk/init.recovery.hisi.rc:root/init.recovery.hisi.rc\
+			$(LOCAL_PATH)/ramdisk/init.recovery.huawei.rc:root/init.recovery.huawei.rc\
+			$(LOCAL_PATH)/ramdisk/init.tee.rc:root/init.tee.rc\
+			$(LOCAL_PATH)/ramdisk/init.trace.rc:root/init.trace.rc\
+			$(LOCAL_PATH)/ramdisk/init.usb.rc:root/init.usb.rc\
+			$(LOCAL_PATH)/ramdisk/init.zygote32.rc:root/init.zygote32.rc\
+			$(LOCAL_PATH)/ramdisk/init.zygote64_32.rc:root/init.zygote64_32.rc\
+			$(LOCAL_PATH)/ramdisk/property_contexts:root/property_contexts\
+			$(LOCAL_PATH)/ramdisk/resetFactory.cfg:root/resetFactory.cfg\
+			$(LOCAL_PATH)/ramdisk/seapp_contexts:root/seapp_contexts\
+			$(LOCAL_PATH)/ramdisk/selinux_version:root/selinux_version\
+			$(LOCAL_PATH)/ramdisk/sepolicy:root/sepolicy\
+			$(LOCAL_PATH)/ramdisk/service_contexts:root/service_contexts\
+			$(LOCAL_PATH)/ramdisk/ueventd.4871.rc:root/ueventd.4871.rc\
+			$(LOCAL_PATH)/ramdisk/ueventd.6193.rc:root/ueventd.6193.rc\
+			$(LOCAL_PATH)/ramdisk/ueventd.51312.rc:root/ueventd.51312.rc\
+			$(LOCAL_PATH)/ramdisk/ueventd.6250.rc:root/ueventd.6250.rc\
+			$(LOCAL_PATH)/ramdisk/ueventd.rc:root/ueventd.rc\
+			$(LOCAL_PATH)/ramdisk/sbin/adbd:root/sbin/adbd\
+			$(LOCAL_PATH)/ramdisk/sbin/check_root:root/sbin/check_root\
+			$(LOCAL_PATH)/ramdisk/sbin/hdbd:root/sbin/hdbd\
+			$(LOCAL_PATH)/ramdisk/sbin/healthd:root/sbin/healthd\
+			$(LOCAL_PATH)/ramdisk/sbin/hw_crit_service_sys:root/sbin/hw_crit_service_sys\
+			$(LOCAL_PATH)/ramdisk/sbin/hw_ueventd:root/sbin/hw_ueventd\
+			$(LOCAL_PATH)/ramdisk/sbin/kmsgcat:root/sbin/kmsgcat\
+			$(LOCAL_PATH)/ramdisk/sbin/launch_daemonsu.sh:root/sbin/launch_daemonsu.sh\
+			$(LOCAL_PATH)/ramdisk/sbin/logctl_service:root/sbin/logctl_service\
+			$(LOCAL_PATH)/ramdisk/sbin/ntfs-3gd:root/sbin/ntfs-3gd\
+			$(LOCAL_PATH)/ramdisk/sbin/oeminfo_nvm_server:root/sbin/oeminfo_nvm_server\
+			$(LOCAL_PATH)/ramdisk/sbin/teecd:root/sbin/teecd)
+			$(LOCAL_PATH)/ramdisk/sbin/ueventd:root/sbin/ueventd)
+			$(LOCAL_PATH)/ramdisk/sbin/volisnotd:root/sbin/volisnotd)
+			$(LOCAL_PATH)/ramdisk/sbin/watchdogd:root/sbin/watchdogd)
+
+                       
+                       
+
+#Bin                      
+                       
+PRODUCT_COPY_FILES += \
+		vendor/bin/afar:system/bin/afar \
+		vendor/bin/agnsscontrol:system/bin/agnsscontrol \
+		vendor/bin/agnsslog:system/bin/agnsslog \
+		vendor/bin/chargelogcat:system/bin/chargelogcat \
+		vendor/bin/checkntfs:system/bin/checkntfs \
+		vendor/bin/chr_logd:system/bin/chr_logd \
+		vendor/bin/dex2oat:system/bin/dex2oat \
+		vendor/bin/dexopt-wrapper:system/bin/dexopt-wrapper \
+		vendor/bin/diagserver:system/bin/diagserver \
+		vendor/bin/dmesgcat:system/bin/dmesgcat \
+		vendor/bin/dumptool:system/bin/dumptool \
+		vendor/bin/eventcat:system/bin/eventcat \
+		vendor/bin/exfatfsck:system/bin/exfatfsck \
+		vendor/bin/filebackup:system/bin/filebackup \
+		vendor/bin/firmware_bfg_loglevel:system/bin/firmware_bfg_loglevel \
+		vendor/bin/get_board_ver:system/bin/get_board_ver \
+		vendor/bin/get_chip_ver:system/bin/get_chip_ver \
+		vendor/bin/get_param_ver:system/bin/get_param_ver \
+		vendor/bin/gnss_engine:system/bin/gnss_engine \
+		vendor/bin/gpsdaemon:system/bin/gpsdaemon\
+		vendor/bin/hi110x_dump:system/bin/hi110x_dump \
+		vendor/bin/hi110x_except_logd:system/bin/hi110x_except_logd \
+		vendor/bin/hi110x_logd:system/bin/hi110x_logd \
+		vendor/bin/hisi_connectivity.sh:system/bin/hisi_connectivity.sh \
+		vendor/bin/hostapd:system/bin/hostapd \
+		vendor/bin/hostapd_cli_hisi:system/bin/hostapd_cli_hisi \
+		vendor/bin/hostapd_hisi:system/bin/hostapd_hisi \
+		vendor/bin/mkexfatfs:system/bin/mkexfatfs \
+		vendor/bin/mkntfs:system/bin/mkntfs \
+		vendor/bin/modem_resetinfo:system/bin/modem_resetinfo \
+		vendor/bin/modemlogcat_lte:system/bin/modemlogcat_lte \
+		vendor/bin/mediaserver:system/bin/mediaserver \
+		vendor/bin/oam_app:system/bin/oam_app \
+		vendor/bin/octty:system/bin/octty \
+		vendor/bin/pcscd:system/bin/pcscd \
+		vendor/bin/powerlogd:system/bin/powerlogd \
+		vendor/bin/set_log:system/bin/set_log \
+		vendor/bin/shutdownanimation:system/bin/shutdownanimation \
+		vendor/bin/sleeplogcat:system/bin/sleeplogcat \
+		vendor/bin/supl20clientd:system/bin/supl20clientd \
+		vendor/bin/thermal-daemon:system/bin/thermal-daemon \
+		vendor/bin/wl:system/bin/wl \
+		vendor/bin/wl_config:system/bin/wl_config \
+		vendor/bin/wpa_cli_hisi:system/bin/wpa_cli_hisi \
+		vendor/bin/wpa_supplicant_hisi:system/bin/wpa_supplicant_hisi 
+
+#Lib
+PRODUCT_COPY_FILES += \
+		vendor/lib/cp_if.so:system/lib/cp_if.so \
+		vendor/lib/hw/displaycaps.default.so:system/lib/displaycaps.default.so \
+		vendor/lib/hw/fm.bcm.hi6250.so:system/lib/hw/fm.bcm.hi6250.so \
+		vendor/lib/hw/fm.hi110x.hi6250.so:system/lib/hw/fm.hi110x.hi6250.so \
+		vendor/lib/hw/gatekeeper.hi6250.so:system/lib/hw/gatekeeper.hi6250.so \
+		vendor/lib/hw/hw_af_extend.default.so:system/lib/hw/hw_af_extend.default.so \
+		vendor/lib/imedia_filters.so:system/lib/imedia_filters.so \
+		vendor/lib/lib_atprotocolsw.so:system/lib/lib_atprotocolsw.so \
+		vendor/lib/lib_k3_ffmpeg.so:system/lib/lib_k3_ffmpeg.so \
+		vendor/lib/lib_k3_omx_avc.so:system/lib/lib_k3_omx_avc.so \
+		vendor/lib/lib_k3_omx_avcenc.so:system/lib/lib_k3_omx_avcenc.so \
+		vendor/lib/lib_k3_omx_mpeg2.so:system/lib/lib_k3_omx_mpeg2.so \
+		vendor/lib/lib_k3_omx_mpeg4.so:system/lib/lib_k3_omx_mpeg4.so \
+		vendor/lib/lib_k3_omx_rv.so:system/lib/lib_k3_omx_rv.so \
+		vendor/lib/lib_k3_omx_vc1.so:system/lib/lib_k3_omx_vc1.so \
+		vendor/lib/lib_k3_omx_vp8.so:system/lib/lib_k3_omx_vp8.so \
+		vendor/lib/lib_k3_omxcore.so:system/lib/lib_k3_omxcore.so \
+		vendor/lib/lib_nve_operation.so:system/lib/lib_nve_operation.so \
+		vendor/lib/lib_oeminfo_interface.so:system/lib/lib_oeminfo_interface.so \
+		vendor/lib/lib_vibrator.so:system/lib/lib_vibrator.so \
+		vendor/lib/libaes.so:system/lib/libaes.so \
+		vendor/lib/libagnssal.so:system/lib/libagnssal.so \
+		vendor/lib/libatpswdck.so:system/lib/libatpswdck.so \
+		vendor/lib/libaudioalgoservice_jni.so:system/lib/libaudioalgoservice_jni.so \
+		vendor/lib/libaudio-resampler.so:system/lib/libaudio-resampler.so \
+		vendor/lib/libaudioresampler.so:system/lib/libaudioresampler.so \
+		vendor/lib/libaudio_custom.so:system/lib/libaudio_custom.so \
+		vendor/lib/libaudioeffect_jni.so:system/lib/libaudioeffect_jni.so \
+		vendor/lib/libaudio_custom.so:system/lib/libaudio_custom.so \
+		vendor/lib/libaudioflinger.so:system/lib/libaudioflinger.so \
+		vendor/lib/libaudiopolicyservice.so:system/lib/libaudiopolicyservice.so \
+		vendor/lib/libaudioroute.so:system/lib/libaudioroute.so \
+		vendor/lib/libaudioutils.so:system/lib/libaudioutils.so \
+		vendor/lib/libbalong-ril.so:system/lib/libbalong-ril.so \
+		vendor/lib/libbalong-ril-1.so:system/lib/libbalong-ril-1.so \
+		vendor/lib/libBestShot.so:system/lib/libBestShot.so \
+		vendor/lib/libblasV8.so:system/lib/libblasV8.so \
+		vendor/lib/libbluetoothex_jni.so:system/lib/libbluetoothex_jni.so \
+		vendor/lib/libbluetooth_jni.so:system/lib/libbluetooth_jni.so \
+		vendor/lib/libbspatchhwouc.so:system/lib/libbspatchhwouc.so \
+		vendor/lib/libbt_factory_test.so:system/lib/libbt_factory_test.so \
+		vendor/lib/libbt_factory_test_hi110x.so:system/lib/libbt_factory_test_hi110x.so \
+		vendor/lib/libbtaddrjni.so:system/lib/libbtaddrjni.so \
+		vendor/lib/libcamera_omron.so:system/lib/libcamera_omron.so \
+		vendor/lib/libcamera_post_mediaserver.so:system/lib/libcamera_post_mediaserver.so \
+		vendor/lib/libCameraHwExtend.so:system/lib/libCameraHwExtend.so\
+		vendor/lib/libcameraservice.so:system/lib/libcameraservice.so \
+		vendor/lib/libdrmdecrypt.so:system/lib/libdrmdecrypt.so \
+		vendor/lib/libcgroup.so:system/lib/libcgroup.so \
+		vendor/lib/libchrlog.so:system/lib/libchrlog.so \
+		vendor/lib/libearpa.so:system/lib/libearpa.so \
+		vendor/lib/libexif.so:system/lib/libexif.so \
+		vendor/lib/libffmpeg_neon.so:system/lib/libffmpeg_neon.so \
+		vendor/lib/libffvplayer.so:system/lib/libffvplayer.so \
+		vendor/lib/libfm_hal.so:system/lib/libfm_hal.so \
+		vendor/lib/libfm_interface.so:system/lib/libfm_interface.so \
+		vendor/lib/libfm_jni.so:system/lib/libfm_jni.so \
+		vendor/lib/libfm_volume.so:system/lib/libfm_volume.so \
+		vendor/lib/libgnssadapter.so:system/lib/libgnssadapter.so \
+		vendor/lib/libgralloc_ext.default.so:system/lib/libgralloc_ext.default.so \
+		vendor/lib/libgralloc_ext.so:system/lib/libgralloc_ext.so \
+		vendor/lib/libhardware_legacy_bcm.so:system/lib/libhardware_legacy_bcm.so \
+		vendor/lib/libhardware_legacy_hisi.so:system/lib/libhardware_legacy_hisi.so \
+		vendor/lib/libhelixplayer.so:system/lib/libhelixplayer.so \
+		vendor/lib/libhelixplayerwrapper.so:system/lib/libhelixplayerwrapper.so \
+		vendor/lib/libhisi_efuse.so:system/lib/libhisi_efuse.so \
+		vendor/lib/libhisi_ini.so:system/lib/libhisi_ini.so \
+		vendor/lib/libhuaweiaudioeffectutil.so:system/lib/libhuaweiaudioeffectutil.so \
+		vendor/lib/libhwextdevice.so:system/lib/libhwextdevice.so \
+		vendor/lib/libjpegenchw.so:system/lib/libjpegenchw.so \
+		vendor/lib/liblog.so:system/lib/liblog.so \
+		vendor/lib/libmax98925.so:system/lib/libmax98925.so \
+		vendor/lib/libmedia.so:system/lib/libmedia.so \
+		vendor/lib/libmedia_jni.huawei.so:system/lib/libmedia_jni.huawei.so \
+		vendor/lib/libmedialogservice.so:system/lib/libmedialogservice.so \
+		vendor/lib/libnfc_nci_jni.so:system/lib/libnfc_nci_jni.so \
+		vendor/lib/libnfc-nci.so:system/lib/libnfc-nci.so \
+		vendor/lib/liboeminfo.so:system/lib/liboeminfo.so \
+		vendor/lib/libpowergenie_native3.so:system/lib/libpowergenie_native3.so \
+		vendor/lib/libreference-ril.so:system/lib/libreference-ril.so\
+		vendor/lib/librilutils.so:system/lib/librilutils.so\
+		vendor/lib/libsensorsgps.so:system/lib/libsensorsgps.so \
+		vendor/lib/libserviceutility.so:system/lib/libservicesutility.so \
+		vendor/lib/libsonic.so:system/lib/libsonic.so \
+		vendor/lib/libstagefright.huawei.so:system/lib/libstagefright.huawei.so \
+		vendor/lib/libstagefright_foundation.so:system/lib/libstagefright_foundation.so \
+		vendor/lib/libstagefright_omx.so:system/lib/libstagefright_omx.so \
+		vendor/lib/libstagefright_soft_ffmpegaudiodec.so:system/lib/libstagefright_soft_ffmpegaudiodec.so \
+		vendor/lib/libstagefright_soft_ffmpegvideodec.so:system/lib/libstagefright_soft_ffmpegvideodec.so \
+		vendor/lib/libstagefrighthw.so:system/lib/libstagefrighthw.so \
+		vendor/lib/libsupl10client.so:system/lib/libsupl10client.so \
+		vendor/lib/libsupl20client.so:system/lib/libsupl20client.so \
+		vendor/lib/libsupl20comon.so:system/lib/libsupl20comon.so \
+		vendor/lib/libsupl20if.so:system/lib/libsupl20if.so \
+		vendor/lib/libsupl20oasn1comn.so:system/lib/libsupl20oasn1comn.so \
+		vendor/lib/libsupl20oasn1lpp.so:system/lib/libsupl20oasn1lpp.so \
+		vendor/lib/libsupl20oasn1rrc.so:system/lib/libsupl20oasn1rrc.so \
+		vendor/lib/libsupl20oasn1rrlp.so:system/lib/libsupl20oasn1rrlp.so \
+		vendor/lib/libsupl20oasn1supl1.so:system/lib/libsupl20oasn1supl1.so \
+		vendor/lib/libsupl20oasn1supl2.so:system/lib/libsupl20oasn1supl2.so \
+		vendor/lib/libsupl20oasn1tia.so:system/lib/libsupl20oasn1tia.so \
+		vendor/lib/libsurfaceflinger.so:system/lib/libsurfaceflinger.so \
+		vendor/lib/libtfa9895.so:system/lib/libtfa9895.so \
+		vendor/lib/libutils.so:system/lib/libutils.so \
+		vendor/lib/libwifipro.so:system/lib/libwifipro.so \
+		vendor/lib/libwpa_client_hisi.so:system/lib/libwpa_client_hisi.so \
+		vendor/lib/hw/sensorcaps.default.so:system/lib/hw/sensorcaps.default.so \
+		vendor/lib/hw/sensors.default.so:system/lib/hw/sensors.default.so
+
+
+
+#Lib64
+PRODUCT_COPY_FILES += \
+		vendor/lib64/hw/displaycaps.default.so:system/lib64/hw/displaycaps.default.so \
+		vendor/lib64/hw/fm.bcm.hi6250.so:system/lib64/hw/fm.bcm.hi6250.so \
+		vendor/lib64/hw/fm.hi110x.hi6250.so:system/lib64/hw/fm.hi110x.hi6250.so \
+		vendor/lib64/hw/gatekeeper.hi6250.so:system/lib64/hw/gatekeeper.hi6250.so \
+		vendor/lib64/hw/sensorcaps.default.so:system/lib64/hw/sensorcaps.default.so \
+		vendor/lib64/hw/sensors.default.so:system/lib64/hw/sensors.default.so \
+		vendor/lib64/libaes.so:system/lib64/libaes.so \
+		vendor/lib64/libagnssal.so:system/lib64/libagnssal.so \
+		vendor/lib64/libaudio_custom.so:system/lib64/libaudio_custom.so \
+		vendor/lib64/libaudioalgoservice_jni.so:system/lib64/libaudioalgoservice_jni.so \
+		vendor/lib64/libaudio-resampler.so:system/lib64/libaudio-resampler.so \
+		vendor/lib64/libaudioroute.so:system/lib64/libaudioroute.so \
+		vendor/lib64/libbluetoothex_jni.so:system/lib64/libbluetoothex_jni.so \
+		vendor/lib64/libchrlog.so:system/lib64/libchrlog.so \
+		vendor/lib64/libexif.so:system/lib64/libexif.so \
+		vendor/lib64/libgnssadapter.so:system/lib64/libgnssadapter.so \
+		vendor/lib64/libgui.so:system/lib64/libgui.so \
+		vendor/lib64/libhisi_efuse.so:system/lib64/libhisi_efuse.so \
+		vendor/lib64/libhisi_ini.so:system/lib64/libhisi_ini.so \
+		vendor/lib64/liblog.so:system/lib64/liblog.so \
+		vendor/lib64/libmax98925.so:system/lib64/libmax98925.so \
+		vendor/lib64/liboeminfo.so:system/lib64/liboeminfo.so \
+		vendor/lib64/libpowergenie_native3.so:system/lib64/libpowergenie_native3.so \
+		vendor/lib64/libreference-ril.so:system/lib64/libreference-ril.so \
+		vendor/lib64/librilutils.so:system/lib64/librilutils.so \
+		vendor/lib64/libstagefright.huawei.so:system/lib64/libstagefright.huawei.so \
+		vendor/lib64/libstagefright_soft_ffmpegaudiodec.so:system/lib64/libstagefright_soft_ffmpegaudiodec.so \
+		vendor/lib64/libstagefright_soft_ffmpegvideodec.so:system/lib64/libstagefright_soft_ffmpegvideodec.so \
+		vendor/lib64/libsonic.so:system/lib64/libsonic.so \
+		vendor/lib64/libstagefright.so:system/lib64/libstagefright.so \
+		vendor/lib64/libstagefrighthw.so:system/lib64/libstagefrighthw.so \
+		vendor/lib64/libsurfaceflinger.so:system/lib64/libsurfaceflinger.so \
+		vendor/lib64/libtfa9895.so:system/lib64/libtfa9895.so \
+		vendor/lib64/libwifipro.so:system/lib64/libwifipro.so \
+		vendor/lib64/libwifi-service.so:system/lib64/libwifi-service.so 
+
+
+		
+
+
+
+
+	NFCEE_ACCESS_PATH := vendor/etc/nfcee_access.xml
+PRODUCT_COPY_FILES += \
+	$(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
+
+
+
+
+
+
+
+
+# Inherit from the common Open Source product configuration
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
+
+
+
+#$(call inherit-product, device/huawei/hi6250/device.mk)
+#$(call inherit-product-if-exists, vendor/huawei/hi6250/hi6250-vendor.mk)
+
+
+PRODUCT_PACKAGES += \
+    Launcher3
+
+
+
+
