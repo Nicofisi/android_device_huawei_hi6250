@@ -6,7 +6,7 @@ BOARD_USES_GENERIC_AUDIO := false
 # 1st Arch
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
-TARGET_CPU_VARIANT := 	Cortex-A53
+TARGET_CPU_VARIANT := cortex-a53
 TARGET_CPU_ABI := arm64-v8a
 TARGET_BOARD_GPU := mali-t830mp2
 #TARGET_CPU_ABI2 :=
@@ -75,6 +75,8 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 
 BOARD_HAS_NO_SELECT_BUTTON := true
+# ^ use this if your device needs to use its Power button to confirm selections in recovery.
+# so it's correct now, right?
 DEVICE_RESOLUTION := 1080x1920
 TW_THEME := portrait_xxhdpi
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
