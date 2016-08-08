@@ -6,7 +6,7 @@ BOARD_USES_GENERIC_AUDIO := false
 # 1st Arch
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
-TARGET_CPU_VARIANT := generic
+TARGET_CPU_VARIANT := 	Cortex-A53
 TARGET_CPU_ABI := arm64-v8a
 TARGET_BOARD_GPU := mali-t830mp2
 #TARGET_CPU_ABI2 :=
@@ -25,7 +25,7 @@ TARGET_NO_RECOVERY := true
 #Audio
 BOARD_USES_ALSA_AUDIO := true
 #RIL
-BOARD_RIL_CLASS := ../../../device/huawei/hi6210sft/ril/
+BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 
 # Wifi & Bluetooth
 BOARD_WLAN_DEVICE                := bcmdhd
@@ -39,10 +39,10 @@ WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path
 WIFI_DRIVER_FW_PATH_STA          := "/system/vendor/firmware/fw_bcm4343s_hw.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/system/vendor/firmware/fw_bcm4343s_apsta_hw.bin"
 WIFI_DRIVER_FW_PATH_P2P          := "/system/vendor/firmware/fw_bcm4343s_p2p_hw.bin"
-WIFI_BAND                        := 802_11_ABG
+WIFI_BAND                        := 802_11_BGN
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := "device/huawei/hi6210sft/bluetooth"
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := "device/huawei/hi6250/bluetooth"
 
 
 TARGET_HARDWARE_3D := true
